@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const SECRET = process.env.JWT_SECRET || "";
+const SECRET = "JWT_SECRET";
 export const isAuthenticatedUser = TryCatch(async (req, res, next) => {
     const { token } = req.cookies;
     if (!token) {
