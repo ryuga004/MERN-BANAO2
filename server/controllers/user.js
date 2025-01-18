@@ -8,7 +8,7 @@ import ErrorHandler from "../utils/utility-class.js";
 
 dotenv.config();
 
-const SECRET = process.env.JWT_SECRET || "";
+const SECRET = "JWT_SECRET";
 const SERVICE_KEY = "service_r6165ja";
 const TEMPLATE_KEY = "template_7dmb1pf";
 const PUBLIC_KEY = "uAiHqQpPwDuH0bVxh";
