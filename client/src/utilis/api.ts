@@ -35,7 +35,9 @@ export const logoutUser = async (): Promise<any> => {
 // Get current user details
 export const getCurrentUser = async (): Promise<any> => {
     try {
-        const response = await api.get('/user/me');
+        const response = await api.get('/user/me', {
+            withCredentials: true,
+        });
         return response.data;
     } catch (error) {
         console.log("Error in getCurrentUser Funciton", error);
