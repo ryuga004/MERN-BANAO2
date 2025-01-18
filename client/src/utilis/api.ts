@@ -38,7 +38,7 @@ export const getCurrentUser = async (): Promise<any> => {
         const response = await api.get('/user/me');
         return response.data;
     } catch (error) {
-        throw error;
+        console.log("Error in getCurrentUser Funciton", error);
     }
 };
 
