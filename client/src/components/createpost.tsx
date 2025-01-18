@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { BsSend } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../store/hook';
-import { UserType } from '../store/userSlice';
-import { createPost, fetchPosts } from '../utilis/api';
-import { Post } from '../utilis/types';
 import { addPost } from '../store/postSlice';
+import { UserType } from '../store/userSlice';
+import { createPost } from '../utilis/api';
+import { Post } from '../utilis/types';
 
 interface formDataType {
     title?: string,

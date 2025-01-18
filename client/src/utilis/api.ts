@@ -1,8 +1,8 @@
 import axios from "axios";
-import { Comment, Post } from "./types";
-import { addPost, setPosts } from "../store/postSlice";
+import { setPosts } from "../store/postSlice";
+import { Post } from "./types";
 
-const baseURL: string = "http://localhost:5000/api/v1";
+const baseURL: string = "https://mern-banao-2-backend.vercel.app/api/v1";
 
 
 const api = axios.create({

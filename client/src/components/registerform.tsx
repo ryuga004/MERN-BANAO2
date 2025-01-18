@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FiLock, FiMail, FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../store/hook";
 import { registerUser } from "../utilis/api";
 
 interface formType {
@@ -24,7 +23,7 @@ const RegisterForm = () => {
         }));
     };
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await registerUser(formData).then(() => {

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { FiLock, FiMail } from "react-icons/fi";
-import { useAppDispatch } from "../store/hook";
 import { BiCodeAlt } from "react-icons/bi";
+import { FiLock, FiMail } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { setPassword } from "../utilis/api";
 
@@ -25,7 +24,7 @@ const ResetForm = () => {
         }));
     };
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         await setPassword(formData).then(() => {

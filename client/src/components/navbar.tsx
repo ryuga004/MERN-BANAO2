@@ -8,7 +8,7 @@ import { logoutUser } from "../utilis/api";
 
 
 export default function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useAppSelector<any>((state) => state.user.user.username)
+    const user = useAppSelector((state) => state.user.user)
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const handleLogout = async () => {
@@ -31,7 +31,7 @@ export default function Navbar() {
 
 
             <div>
-                {isLoggedIn ?
+                {user?.username ?
                     <button
                         onClick={handleLogout}
                         className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-all"

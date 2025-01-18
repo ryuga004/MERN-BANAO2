@@ -5,10 +5,9 @@ import dotenv from 'dotenv';
 import express from "express";
 import { errorMiddleware } from "./middleware/error.js";
 
-import UserRoutes from "./routes/user.js";
 import PostRoutes from "./routes/post.js";
+import UserRoutes from "./routes/user.js";
 import { connectDB } from "./utils/feature.js";
-import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 const PORT = process.env.PORT || 8000;
