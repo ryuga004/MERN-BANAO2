@@ -15,7 +15,7 @@ const mongoURI = process.env.MONGO_URI || "";
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://mern-banao-2.vercel.app",
     credentials: true,
 }));
 
