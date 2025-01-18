@@ -9,13 +9,13 @@ const api = axios.create({
     baseURL,
     withCredentials: true,
 });
-
-export const loginUser = async (username: string = "", password: string = ""): Promise<any> => {
+interface loginUserType {
+    username?: string,
+    password?: string
+}
+export const loginUser = async (formData: loginUserType): Promise<any> => {
     try {
-        const response = await api.post('/user/login', {
-            username,
-            password
-        });
+        const response = await api.post('/user/login', formData);
         return response.data;
     } catch (error) {
         throw error;

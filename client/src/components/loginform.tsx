@@ -27,7 +27,7 @@ const LoginForm = () => {
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await loginUser(formData?.username, formData?.password);
+            const res = await loginUser(formData);
             if (!res.success) {
                 console.log('Login Failed');
             } else {
