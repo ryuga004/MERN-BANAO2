@@ -31,15 +31,21 @@ const LoginForm = () => {
             if (!res.success) {
                 console.log('Login Failed');
             } else {
-                const response = await getCurrentUser();
-                navigate("/");
-                const user = response.data;
-                dispatch(setUser({
-                    id: user._id,
-                    username: user.username,
-                    email: user.email,
-                }));
-                console.log('Login successful');
+                try {
+                    const response = await getCurrentUser();
+                    if (response) {
+                        navigate("/");
+                        const user = response.data;
+                        dispatch(setUser({
+                            id: user._id,
+                            username: user.username,
+                            email: user.email,
+                        }));
+                        console.log('Login successful');
+                    }
+                } catch (error) {
+                    console.error("Error in fetching login user details", error);
+                }
             }
         } catch (err) {
             console.error('Error during login:', err);
