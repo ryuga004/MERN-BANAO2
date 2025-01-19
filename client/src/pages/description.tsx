@@ -20,7 +20,7 @@ export default function PostDescription() {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
+    const [file, setFile] = useState<File | null>(null);
     const user = useAppSelector((state) => state.user.user);
     const post = useAppSelector((state) =>
         state.posts.posts.find((p: Post) => p.id === id)
@@ -58,10 +58,13 @@ export default function PostDescription() {
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            const formData = new FormData();
+            if (editForm.editedTitle) formData.append("title", editForm.editedTitle)
+            if (editForm.editedDescription) formData.append("description", editForm.editedDescription)
+            if (file) formData.append("image", file)
             const res = await editPost({
                 id: post?.id,
-                editedTitle: editForm.editedTitle,
-                editedDescription: editForm.editedDescription,
+                formData
             });
             if (res) {
                 dispatch(
@@ -105,6 +108,12 @@ export default function PostDescription() {
             }
         } catch (error) {
             console.error('Error adding comment:', error);
+        }
+    };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setFile(file);
         }
     };
     return (
@@ -210,6 +219,22 @@ export default function PostDescription() {
                                     rows={6}
                                     className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                                     placeholder="Write your post content..."
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="file"
+                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                >
+                                    Edit Image
+                                </label>
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 />
                             </div>
                             <div className="flex justify-end space-x-4">

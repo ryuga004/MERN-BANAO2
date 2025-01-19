@@ -44,7 +44,7 @@ export const getCurrentUser = async (): Promise<any> => {
 };
 
 
-// Register a new user
+
 type registerUserType = {
     username?: string,
     email?: string,
@@ -58,7 +58,7 @@ export const registerUser = async (formData: registerUserType): Promise<any> => 
         throw error;
     }
 };
-// send a reset code to this email 
+
 export const sendCode = async (email: string): Promise<any> => {
     try {
         const response = await api.post('/user/forget-password', {
@@ -170,15 +170,11 @@ export const deletePost = async (id: string = ""): Promise<any> => {
 
 interface editDataType {
     id?: string,
-    editedTitle?: string,
-    editedDescription?: string,
+    formData: FormData
 }
-export const editPost = async ({ id, editedTitle, editedDescription }: editDataType): Promise<any> => {
+export const editPost = async ({ id, formData }: editDataType): Promise<any> => {
     try {
-        const response = await api.put(`/post/${id}`, {
-            title: editedTitle,
-            description: editedDescription
-        });
+        const response = await api.put(`/post/${id}`, formData);
         return response.data;
     } catch (error) {
         console.error('Failed to fetch posts:', error);

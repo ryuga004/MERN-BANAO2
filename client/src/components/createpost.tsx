@@ -73,6 +73,7 @@ export default function CreatePost() {
                 title: '',
                 description: ""
             })
+            setFile(null);
         } catch (err) {
             console.error('Error during creating a post:', err);
         }
