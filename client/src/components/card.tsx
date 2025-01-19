@@ -47,7 +47,13 @@ export default function Card({ post }: CardProps) {
                 className="p-6 flex flex-col justify-between min-h-[220px] space-y-6">
 
                 <div className="space-y-3 cursor-pointer" onClick={() => navigate(`/${post.id}`)}>
-
+                    {post.image && (
+                        <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-48 object-cover "
+                        />
+                    )}
                     <h2 className="text-xl text-grey-900 font-bold leading-snug">
                         {post.title}
                     </h2>

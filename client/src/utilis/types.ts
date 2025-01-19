@@ -18,6 +18,7 @@ export interface Post {
     id: string;
     author: User;
     title: string;
+    image?: string;
     description: string;
     likes: string[];
     comments: Array<Comment>;
