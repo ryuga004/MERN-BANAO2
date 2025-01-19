@@ -97,6 +97,7 @@ export const fetchPosts = async (dispatch: any): Promise<any> => {
                     id: post.author._id,
                     username: post.author.username,
                 },
+                image: post.image || "",
                 likes: post.likes,
                 comments: post.comments.map((comment: any) => ({
                     id: comment._id,
@@ -144,6 +145,7 @@ export const getPost = async (id: string = ""): Promise<any> => {
                     username: post.author.username,
                     email: "",
                 },
+                image: post.image || "",
                 likes: post.likes,
                 comments: post.comments.map((comment: any) => ({
                     id: comment._id,
