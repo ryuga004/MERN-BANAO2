@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import express from "express";
 import { errorMiddleware } from "./middleware/error.js";
-
+import { v2 as cloudinary } from "cloudinary";
 import PostRoutes from "./routes/post.js";
 import UserRoutes from "./routes/user.js";
 import { connectDB } from "./utils/feature.js";
@@ -12,6 +12,17 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8000;
 const mongoURI = process.env.MONGO_URI || "";
+export const JWT_SECRET = process.env.JWT_SECRET || "";
+export const SERVICE_KEY = process.env.SERVICE_KEY || "";
+export const TEMPLATE_KEY = process.env.TEMPLATE_KEY || "";
+export const PUBLIC_KEY = process.env.PUBLIC_KEY || "";
+export const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
+
+cloudinary.config({
+    api_key: process.env.api_key,
+    api_secret: process.env.api_secret,
+    cloud_name: process.env.cloud_name
+})
 
 const app = express();
 

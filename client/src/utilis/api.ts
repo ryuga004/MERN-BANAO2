@@ -4,7 +4,6 @@ import { Post } from "./types";
 
 const baseURL: string = "https://mern-banao-2-backend.vercel.app/api/v1";
 
-
 const api = axios.create({
     baseURL,
     withCredentials: true,
