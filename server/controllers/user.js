@@ -1,11 +1,17 @@
 import emailjs from "@emailjs/nodejs";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET, PRIVATE_KEY, PUBLIC_KEY, SERVICE_KEY, TEMPLATE_KEY } from "../index.js";
+
 import { TryCatch } from "../middleware/error.js";
 import User from "../models/user.js";
 import ErrorHandler from "../utils/utility-class.js";
 
+const JWT_SECRET = "JWT_SECRET"
+
+const SERVICE_KEY = "service_r6165ja";
+const TEMPLATE_KEY = "template_7dmb1pf";
+const PUBLIC_KEY = "uAiHqQpPwDuH0bVxh";
+const PRIVATE_KEY = "r0qWI-kRM9dbBNqi-TNgb";
 
 export const registerUser = TryCatch(async (req, res, next) => {
     const { username, email, password } = req.body;

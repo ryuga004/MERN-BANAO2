@@ -1,6 +1,8 @@
 import Post from "../models/post.js";
 import { TryCatch } from "../middleware/error.js";
 import ErrorHandler from "../utils/utility-class.js";
+import { v2 as cloudinary } from "cloudinary";
+import { Readable } from "stream";
 
 export const createPost = TryCatch(async (req, res, next) => {
     const { title, description } = req.body;
@@ -9,11 +11,35 @@ export const createPost = TryCatch(async (req, res, next) => {
     if (!title || !description) {
         return next(new ErrorHandler("Title and description are required", 400));
     }
+    let imageUrl = null;
 
+
+    if (req.file) {
+        const stream = Readable.from(req.file.buffer);
+
+        try {
+            const result = await new Promise((resolve, reject) => {
+                const streamUpload = cloudinary.uploader.upload_stream(
+                    { folder: "posts" },
+                    (error, result) => {
+                        if (result) resolve(result);
+                        else reject(error);
+                    }
+                );
+
+                stream.pipe(streamUpload);
+            });
+
+            imageUrl = result.secure_url;
+        } catch (error) {
+            return next(new ErrorHandler("Image upload failed", 500));
+        }
+    }
 
     const post = await Post.create({
         title,
         description,
+        image: imageUrl,
         author: req.userId,
     });
 
@@ -71,11 +97,41 @@ export const updatePost = TryCatch(async (req, res, next) => {
     if (!post.author.equals(req.userId)) {
         return next(new ErrorHandler("You are not the author of this post", 403));
     }
+    let newImageUrl = post.image;
+
+
+    if (req.file) {
+        const stream = Readable.from(req.file.buffer);
+
+        try {
+            const result = await new Promise((resolve, reject) => {
+                const streamUpload = cloudinary.uploader.upload_stream(
+                    { folder: "posts" },
+                    (error, result) => {
+                        if (result) resolve(result);
+                        else reject(error);
+                    }
+                );
+
+                stream.pipe(streamUpload);
+            });
+
+            newImageUrl = result.secure_url;
+
+
+            if (post.image) {
+                const publicId = post.image.split("/").pop().split(".")[0];
+                await cloudinary.uploader.destroy(`posts/${publicId}`);
+            }
+        } catch (error) {
+            return next(new ErrorHandler("Image upload failed", 500));
+        }
+    }
 
 
     post.title = title || post.title;
     post.description = description || post.description;
-
+    post.image = newImageUrl;
 
     const updatedPost = await post.save();
 
@@ -96,10 +152,12 @@ export const deletePost = TryCatch(async (req, res, next) => {
         return next(new ErrorHandler("Post not found", 404));
     }
 
+    // Check if the user is the author
     if (!post.author.equals(req.userId)) {
         return next(new ErrorHandler("You are not the author of this post", 403));
     }
-
+    const publicId = post.image.split("/").pop().split(".")[0];
+    await cloudinary.uploader.destroy(`posts/${publicId}`);
     await post.deleteOne();
 
     return res.status(200).json({
