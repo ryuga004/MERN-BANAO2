@@ -120,7 +120,7 @@ type createPostType = {
     description?: string,
 }
 
-export const createPost = async (formData: createPostType): Promise<any> => {
+export const createPost = async (formData: FormData): Promise<any> => {
     try {
         const response = await api.post('/post/new', formData);
         return response.data;

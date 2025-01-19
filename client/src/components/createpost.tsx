@@ -17,6 +17,7 @@ export default function CreatePost() {
         title: "",
         description: '',
     })
+    const [file, setFile] = useState<File | null>(null);
     const user = useAppSelector<UserType>(state => state.user.user);
     const dispatch = useAppDispatch();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -26,6 +27,12 @@ export default function CreatePost() {
             [name]: value,
         }));
     };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setFile(file);
+        }
+    };
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!user.username) {
@@ -33,7 +40,14 @@ export default function CreatePost() {
             return;
         }
         try {
-            const res = await createPost(formData);
+            const sendData = new FormData();
+            if (formData.title)
+                sendData.append("title", formData.title);
+            if (formData.description)
+                sendData.append("description", formData.description);
+            if (file)
+                sendData.append("image", file);
+            const res = await createPost(sendData);
             if (res) {
                 const post = res.data;
                 const transformedPost: Post = {
@@ -45,6 +59,7 @@ export default function CreatePost() {
                         username: post.author.username,
                         email: post.author.email,
                     },
+                    image: post.image || "",
                     likes: post.likes,
                     comments: post.comments.map((comment: any) => ({
                         id: comment._id,
@@ -97,7 +112,22 @@ export default function CreatePost() {
                         placeholder="Write your post content..."
                     />
                 </div>
-
+                <div>
+                    <label
+                        htmlFor="file"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                        Upload Image
+                    </label>
+                    <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                </div>
                 <button
                     type="submit"
                     className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 flex items-center justify-center space-x-2"
