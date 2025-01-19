@@ -114,11 +114,7 @@ export const fetchPosts = async (dispatch: any): Promise<any> => {
     }
 }
 
-// create a post 
-type createPostType = {
-    title?: string,
-    description?: string,
-}
+
 
 export const createPost = async (formData: FormData): Promise<any> => {
     try {
