@@ -5,13 +5,8 @@ import jwt from "jsonwebtoken";
 import { TryCatch } from "../middleware/error.js";
 import User from "../models/user.js";
 import ErrorHandler from "../utils/utility-class.js";
+import { JWT_SECRET, PRIVATE_KEY, PUBLIC_KEY, SERVICE_KEY, TEMPLATE_KEY } from "../config.js";
 
-const JWT_SECRET = "JWT_SECRET"
-
-const SERVICE_KEY = "service_r6165ja";
-const TEMPLATE_KEY = "template_7dmb1pf";
-const PUBLIC_KEY = "uAiHqQpPwDuH0bVxh";
-const PRIVATE_KEY = "r0qWI-kRM9dbBNqi-TNgb";
 
 export const registerUser = TryCatch(async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -131,7 +126,7 @@ export const forgotPassword = TryCatch(async (req, res, next) => {
         privateKey: PRIVATE_KEY,
     });
 
-    emailjs.send(SERVICE_KEY, TEMPLATE_KEY, {
+    await emailjs.send(SERVICE_KEY, TEMPLATE_KEY, {
         from_name: "B-Social",
         to_email: email,
         message: `Your Password Reset Token is ${code}`,

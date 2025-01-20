@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { TryCatch } from "./error.js";
+import { JWT_SECRET } from "../config.js";
 
-const JWT_SECRET = "JWT_SECRET"
 
 export const isAuthenticatedUser = TryCatch(async (req, res, next) => {
     const { token } = req.cookies;

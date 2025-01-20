@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 8000;
 const mongoURI = process.env.MONGO_URI || "";
 
 
-const api_key = "265558157221793"
-const api_secret = "fmsENcRLJOXmfqwjh28Aqq1KgXs"
-const cloud_name = "ddnkhbxqd"
+const api_key = process.env.api_key;
+const api_secret = process.env.api_secret;
+const cloud_name = process.env.cloud_name;
 
 cloudinary.config({
     api_key,
