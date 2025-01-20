@@ -118,8 +118,6 @@ export const forgotPassword = TryCatch(async (req, res, next) => {
 
     const code = Math.floor(Math.random() * 9000 + 1000);
 
-    user.forgotPasswordConfirmationCode = code;
-    await user.save();
 
     emailjs.init({
         publicKey: PUBLIC_KEY,
@@ -134,6 +132,9 @@ export const forgotPassword = TryCatch(async (req, res, next) => {
         publicKey: PUBLIC_KEY,
         privateKey: PRIVATE_KEY
     }).then(res => console.log(res)).catch(err => console.log(err));
+
+    user.forgotPasswordConfirmationCode = code;
+    await user.save();
 
     return res.status(200).json({
         success: true,
