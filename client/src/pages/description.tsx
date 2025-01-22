@@ -88,14 +88,14 @@ export default function PostDescription() {
         e.preventDefault();
         try {
             const res = await addCommentHandler(id, newComment);
-            console.log('API Response:', res.data);  // Check API response structure
+            console.log('API Response:', res.data);
             if (res.data && res.data[0]) {
                 const comment: Comment = {
-                    id: res.data[0]._id,  // Ensure _id is available
-                    createdby: res.data[0].commentby,  // Ensure commentby is available
-                    body: res.data[0].body  // Ensure body is available
+                    id: res.data[0]._id,
+                    createdby: res.data[0].commentby,
+                    body: res.data[0].body
                 };
-                console.log('Comment before dispatch:', comment);  // Log comment object
+                console.log('Comment before dispatch:', comment);
 
                 if (post?.id) {
                     dispatch(addComment({
@@ -103,7 +103,7 @@ export default function PostDescription() {
                         comment
                     }));
                 } else {
-                    console.log('Post ID is undefined');  // Log if post ID is undefined
+                    console.log('Post ID is undefined');
                 }
             }
         } catch (error) {

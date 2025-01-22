@@ -15,6 +15,10 @@ const RegisterForm = () => {
         password: '',
         email: '',
     });
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -22,18 +26,34 @@ const RegisterForm = () => {
             [name]: value,
         }));
     };
-    const navigate = useNavigate();
 
     const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await registerUser(formData).then(() => {
+        setError(null);
+        setLoading(true);
+        try {
+            await registerUser(formData);
             navigate("/login");
-        }).catch(err => console.error(err));
-    }
+        } catch (err: any) {
+            console.error(err);
+            const errorMessage = err.response?.data?.message || "Registration failed. Please try again.";
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <div className="max-w-sm mx-auto p-6 bg-white rounded-xl shadow-lg m-4">
                 <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Create Account</h2>
+
+                {error && (
+                    <div className="mb-4 text-red-600 text-sm text-center">
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmitForm} className="space-y-6">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Username</label>
@@ -94,9 +114,11 @@ const RegisterForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-indigo-600 hover:bg-indigo-700'
+                            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                        disabled={loading}
                     >
-                        Register
+                        {loading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
 
@@ -111,7 +133,7 @@ const RegisterForm = () => {
                 </p>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default RegisterForm
+export default RegisterForm;
