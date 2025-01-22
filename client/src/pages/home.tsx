@@ -19,7 +19,7 @@ function Home() {
             setLoading(false);
         };
         fetchData();
-    }, [dispatch]);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50">
