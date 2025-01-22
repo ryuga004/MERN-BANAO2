@@ -36,7 +36,7 @@ const LoginForm = () => {
         try {
             const res = await loginUser(formData);
             if (!res.success) {
-                setError('Invalid username or password. Please try again.');
+                setError('Invalid username or password');
             } else {
                 const response = await getCurrentUser();
                 if (response) {
@@ -56,7 +56,7 @@ const LoginForm = () => {
             }
         } catch (err) {
             console.error('Error during login:', err);
-            setError('An unexpected error occurred. Please try again later.');
+            setError('Invalid username or password');
         } finally {
             setLoading(false);
         }

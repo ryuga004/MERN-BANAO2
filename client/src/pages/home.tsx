@@ -33,7 +33,7 @@ function Home() {
                 <main className="lg:col-span-2 col-span-1">
                     <div>
                         {loading ? (
-                            <div className="flex justify-center items-center min-h-[40vh]">
+                            <div className="grid grid-cols-1 min-h-[40vh] gap-2">
                                 <Loader />
                             </div>
                         ) : (
